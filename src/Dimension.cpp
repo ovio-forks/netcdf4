@@ -18,9 +18,9 @@ void Dimension::Init(v8::Local<v8::Object> exports) {
     tpl->SetClassName(v8::String::NewFromUtf8(isolate, "Dimension", v8::NewStringType::kNormal).ToLocalChecked());
     tpl->InstanceTemplate()->SetInternalFieldCount(1);
     NODE_SET_PROTOTYPE_METHOD(tpl, "inspect", Dimension::Inspect);
-    tpl->InstanceTemplate()->SetAccessor(v8::String::NewFromUtf8(isolate, "id", v8::NewStringType::kNormal).ToLocalChecked(), Dimension::GetId);
-    tpl->InstanceTemplate()->SetAccessor(v8::String::NewFromUtf8(isolate, "length", v8::NewStringType::kNormal).ToLocalChecked(), Dimension::GetLength);
-    tpl->InstanceTemplate()->SetAccessor(v8::String::NewFromUtf8(isolate, "name", v8::NewStringType::kNormal).ToLocalChecked(), Dimension::GetName, Dimension::SetName);
+    tpl->InstanceTemplate()->SetNativeDataProperty(v8::String::NewFromUtf8(isolate, "id", v8::NewStringType::kNormal).ToLocalChecked(), Dimension::GetId);
+    tpl->InstanceTemplate()->SetNativeDataProperty(v8::String::NewFromUtf8(isolate, "length", v8::NewStringType::kNormal).ToLocalChecked(), Dimension::GetLength);
+    tpl->InstanceTemplate()->SetNativeDataProperty(v8::String::NewFromUtf8(isolate, "name", v8::NewStringType::kNormal).ToLocalChecked(), Dimension::GetName, Dimension::SetName);
     constructor.Reset(isolate, tpl->GetFunction(isolate->GetCurrentContext()).ToLocalChecked());
 }
 
@@ -33,15 +33,15 @@ bool Dimension::get_name(char* name) const {
     return true;
 }
 
-void Dimension::GetId(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+void Dimension::GetId(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
     v8::Isolate* isolate = info.GetIsolate();
-    Dimension* obj = node::ObjectWrap::Unwrap<Dimension>(info.Holder());
+    Dimension* obj = node::ObjectWrap::Unwrap<Dimension>(info.This());
     info.GetReturnValue().Set(v8::Integer::New(isolate, obj->id));
 }
 
-void Dimension::GetLength(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+void Dimension::GetLength(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
     v8::Isolate* isolate = info.GetIsolate();
-    Dimension* obj = node::ObjectWrap::Unwrap<Dimension>(info.Holder());
+    Dimension* obj = node::ObjectWrap::Unwrap<Dimension>(info.This());
     size_t len;
     int retval = nc_inq_dimlen(obj->parent_id, obj->id, &len);
     if (retval != NC_NOERR) {
@@ -51,18 +51,18 @@ void Dimension::GetLength(v8::Local<v8::String> property, const v8::PropertyCall
     info.GetReturnValue().Set(v8::Integer::New(isolate, len));
 }
 
-void Dimension::GetName(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+void Dimension::GetName(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
     v8::Isolate* isolate = info.GetIsolate();
-    Dimension* obj = node::ObjectWrap::Unwrap<Dimension>(info.Holder());
+    Dimension* obj = node::ObjectWrap::Unwrap<Dimension>(info.This());
     char name[NC_MAX_NAME + 1];
     if (obj->get_name(name)) {
         info.GetReturnValue().Set(v8::String::NewFromUtf8(isolate, name, v8::NewStringType::kNormal).ToLocalChecked());
     }
 }
 
-void Dimension::SetName(v8::Local<v8::String> property, v8::Local<v8::Value> val, const v8::PropertyCallbackInfo<void>& info) {
+void Dimension::SetName(v8::Local<v8::Name> property, v8::Local<v8::Value> val, const v8::PropertyCallbackInfo<void>& info) {
     v8::Isolate* isolate = info.GetIsolate();
-    Dimension* obj = node::ObjectWrap::Unwrap<Dimension>(info.Holder());
+    Dimension* obj = node::ObjectWrap::Unwrap<Dimension>(info.This());
     v8::String::Utf8Value new_name_(
 #if NODE_MAJOR_VERSION >= 8
         isolate,

@@ -16,14 +16,14 @@ class Group : public node::ObjectWrap {
 
   private:
     static v8::Persistent<v8::Function> constructor;
-    static void GetId(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void GetVariables(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void GetDimensions(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void GetUnlimited(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void GetAttributes(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void GetSubgroups(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void GetName(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void GetFullname(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void GetId(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void GetVariables(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void GetDimensions(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void GetUnlimited(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void GetAttributes(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void GetSubgroups(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void GetName(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void GetFullname(v8::Local<v8::Name> property, const v8::PropertyCallbackInfo<v8::Value>& info);
     static void AddAttribute(const v8::FunctionCallbackInfo<v8::Value>& args);
     static void AddDimension(const v8::FunctionCallbackInfo<v8::Value>& args);
     static void AddSubgroup(const v8::FunctionCallbackInfo<v8::Value>& args);
